@@ -32,8 +32,7 @@ function getStoresWithRoutes(routes, api) {
   const { paths } = api;
   return routes.reduce((memo, route) => [
       ...memo,
-      ...(route.component && route.component.indexOf('() =>') !== 0 &&
-        route.component.indexOf('/layouts/') === -1
+      ...(route.component && route.component.indexOf('() =>') !== 0 
         ? getPageStores(join(paths.cwd, route.component), api)
         : []),
       ...(route.routes ? getStoresWithRoutes(route.routes, api) : []),
@@ -119,9 +118,6 @@ export default function(api, opts = {}) {
     )
       .map(path => {
         const p = { name: basename(path, extname(path)), path }
-        if (join(path).indexOf(join(paths.absSrcPath, 'pages')) === 0) {
-          p.name = basename(join(path, '../'))
-        }
         api.debug(p)
         return p
       })
